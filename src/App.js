@@ -1,11 +1,13 @@
 import React from 'react';
-import Weather from './modules/Weather/Weather';
+import WeatherBasic from './modules/Weather/Basic/WeatherBasic';
+import WeatherFiveDay from './modules/Weather/FiveDay/WeatherFiveDay';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <Weather/>
+      <WeatherBasic/>
+      <WeatherFiveDay/>
     </div>
   );
 }

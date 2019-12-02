@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import './Weather.css';
-import getId from './id';
+import './WeatherFiveDay.css';
+import getId from '../id';
 
 const unitType = "imperial" // Options: imperial or metric| no units = Kelvin
-const weatherAPIURL = "http://api.openweathermap.org/data/2.5/weather?id=5134086&APPID=" + getId() +"&units=" + unitType;
+const weatherAPIURL = "http://api.openweathermap.org/data/2.5/forecast?id=5134086&APPID=" + getId() +"&units=" + unitType;
 const debug = true;
 
-function Weather() {
+function WeatherFiveDay() {
     
     const [icon, setIcon] = useState('./loading.png')
     const [temp, setTemp] = useState(0)
@@ -18,9 +18,9 @@ function Weather() {
             if(debug) {
                 console.log("Updating weather:", data)
             }
-            let iconType = data.weather[0].icon
+            let iconType = data.list[0].weather[0].icon
             setIcon('http://openweathermap.org/img/wn/' + iconType +'@2x.png');
-            setTemp(data.main.temp.toFixed(0))
+            setTemp(data.list[0].main.temp.toFixed(0))
         })
         .catch(function(error) {
             if(debug) {
@@ -47,4 +47,4 @@ function Weather() {
     )
 }
 
-export default Weather
+export default WeatherFiveDay
