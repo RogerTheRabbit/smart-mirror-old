@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './WeatherBasic.css';
+import '../Weather.css';
 import getId from '../id';
 
 const unitType = "imperial" // Options: imperial or metric| no units = Kelvin
@@ -15,17 +16,13 @@ function WeatherBasic() {
         fetch(weatherAPIURL)
         .then((resp) => resp.json())
         .then(function(data) {
-            if(debug) {
-                console.log("Updating weather:", data)
-            }
+            if(debug) console.log("Updating weather:", data);
             let iconType = data.weather[0].icon
             setIcon('http://openweathermap.org/img/wn/' + iconType +'@2x.png');
             setTemp(data.main.temp.toFixed(0))
         })
         .catch(function(error) {
-            if(debug) {
-                console.log("Failed to update weather:", error);
-            }
+            if(debug) console.log("Failed to update weather:", error);
             setIcon('./unavailable.png');
             setTemp("...");
         })

@@ -1,3 +1,19 @@
-.Weather{
-    border: 3px red dotted;
+.WeatherXDays{
+    display: flex;
+    flex-direction: column;
+}
+
+.Forecast{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}
+
+.WeatherElem {
+    justify-content: center;
+}
+
+.temp {
+    display: flex;
+    justify-content: center;
 }
