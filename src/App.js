@@ -1,13 +1,13 @@
 import React from 'react';
 import WeatherBasic from './modules/Weather/Basic/WeatherBasic';
-import WeatherFiveDay from './modules/Weather/FiveDay/WeatherFiveDay';
+import WeatherXDays from './modules/Weather/WeatherXDays/WeatherXDays';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
       <WeatherBasic/>
-      <WeatherFiveDay/>
+      <WeatherXDays numDays={5}/>
     </div>
   );
 }

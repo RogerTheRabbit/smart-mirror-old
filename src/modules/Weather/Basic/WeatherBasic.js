@@ -41,6 +41,7 @@ function WeatherBasic() {
 
     return (
         <div className='Weather'>
+            <h1>Current Weather!</h1>
             <img id='WeatherIcon' src={icon} alt='Weather Icon'/>
             <h3 id='temp'>{temp} ° F</h3>
         </div>
