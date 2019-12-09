@@ -1,3 +1,21 @@
 .Weather{
     border: 3px red dotted;
 }
+
+.WeatherIcon {
+    margin: -15px 0px -20px 0px;
+}
+
+.temp {
+    display: flex;
+    /* justify-content: space-evenly; */
+    justify-content: center;
+}
+
+.primaryTemp {
+    margin: 0px 0.2em 0px 0.2em;
+}
+
+.secondaryTemp {
+    margin: 3px 0px 3px 0px;
+}

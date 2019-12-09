@@ -7,6 +7,8 @@ import getId from '../id';
 const unitType = "imperial" // Options: imperial or metric| no units = Kelvin
 const weatherAPIURL = "http://api.openweathermap.org/data/2.5/forecast?id=5134086&APPID=" + getId() +"&units=" + unitType;
 const debug = true;
+const updateInterval = 650000; //65000;
+const days = ['sun','mon','tues','weds','thurs','fri','sat']
 
 function WeatherXDays({numDays=1}) {
 
@@ -25,17 +27,18 @@ function WeatherXDays({numDays=1}) {
 
                 if(data.cod === 429) {
                     if(debug) console.log("We have run out of our quota for our weatherAPI and need to wait to get more weather.");
-                    setForecast(Array(numDays).fill({icon:'./unavailable.png', temp:"...", minTemp: "...", maxTemp: "..."}))
+                    setForecast(Array(numDays).fill({icon:'./unavailable.png', temp:"...", minTemp: "...", maxTemp: "...", day: "today"}))
                     return;
                 }
                 
                 setForecast((forecast) => forecast.map((curr, idx) => {
-                    let iconType = data.list[idx].weather[0].icon
+                    let iconType = data.list[idx*8].weather[0].icon
                     return {
                         icon: 'http://openweathermap.org/img/wn/' + iconType +'@2x.png',
-                        temp: data.list[idx].main.temp.toFixed("..."),
-                        minTemp: data.list[idx].main.temp_min.toFixed("..."),
-                        maxTemp: data.list[idx].main.temp_max.toFixed("...")
+                        temp: data.list[idx*8].main.temp.toFixed("..."),
+                        minTemp: data.list[idx*8].main.temp_min.toFixed("..."),
+                        maxTemp: data.list[idx*8].main.temp_max.toFixed("..."),
+                        day: getDay(data.list[idx*8].dt)
                     }
                 }))    
             })
@@ -48,21 +51,23 @@ function WeatherXDays({numDays=1}) {
         getWeather();
         const interval = setInterval(() => {
             getWeather();
-        }, 65000);
+        }, updateInterval);
         return () => clearInterval(interval);
     }, [numDays, setForecast]);
 
     return (
         <div className='Weather WeatherXDays'>
-            <h1>Today's Weather!</h1>
+            <h1 className="title">Today's Weather!</h1>
             <div className='Forecast'>
                 {forecast.map((elem, idx) => {
+                    console.log(elem)
                     return <div className='WeatherElem' key={idx}>
                         <img className='WeatherIcon' src={forecast[idx].icon} alt='Weather Icon'/>
+                        <h4 className="secondaryTemp">{forecast[idx].day}</h4>
                         <div className='temp'>
-                            <h5>{forecast[idx].maxTemp}</h5>
-                            <h3> {"|" + forecast[idx].temp + "|"}</h3>
-                            <h5>{forecast[idx].minTemp}</h5>
+                            <h5 className="secondaryTemp">{forecast[idx].maxTemp}</h5>
+                            <h2 className="primaryTemp"> {forecast[idx].temp}</h2>
+                            <h5 className="secondaryTemp">{forecast[idx].minTemp}</h5>
                         </div>
                     </div>
                 })
@@ -70,6 +75,12 @@ function WeatherXDays({numDays=1}) {
             </div>
         </div>
     )
+}
+
+function getDay(UNIXTime) {
+    var date = new Date(UNIXTime * 1000);
+    console.log(date)
+    return days[date.getDay()];
 }
 
 WeatherXDays.protoTypes = {
