@@ -12,7 +12,7 @@ const days = ['sun','mon','tues','weds','thurs','fri','sat']
 
 function WeatherXDays({numDays=1}) {
 
-    console.log("numDays = " + numDays)
+    console.log("Refreshing WeatherXDays Component; numDays = " + numDays)
 
     const [forecast, setForecast] = useState(Array(numDays).fill({icon:'./loading.png', temp:"...", minTemp: "...", maxTemp: "..."}));
 
@@ -32,13 +32,14 @@ function WeatherXDays({numDays=1}) {
                 }
                 
                 setForecast((forecast) => forecast.map((curr, idx) => {
-                    let iconType = data.list[idx*8].weather[0].icon
+                    let offset = getTimeOffset() 
+                    let iconType = data.list[idx*8 + offset].weather[0].icon
                     return {
                         icon: 'http://openweathermap.org/img/wn/' + iconType +'@2x.png',
-                        temp: data.list[idx*8].main.temp.toFixed("..."),
-                        minTemp: data.list[idx*8].main.temp_min.toFixed("..."),
-                        maxTemp: data.list[idx*8].main.temp_max.toFixed("..."),
-                        day: getDay(data.list[idx*8].dt)
+                        temp: data.list[idx*8 + offset].main.temp.toFixed("..."),
+                        minTemp: data.list[idx*8 + offset].main.temp_min.toFixed("..."),
+                        maxTemp: data.list[idx*8 + offset].main.temp_max.toFixed("..."),
+                        day: getDay(data.list[idx*8 + offset].dt)
                     }
                 }))    
             })
@@ -60,7 +61,6 @@ function WeatherXDays({numDays=1}) {
             <h1 className="title">Today's Weather!</h1>
             <div className='Forecast'>
                 {forecast.map((elem, idx) => {
-                    console.log(elem)
                     return <div className='WeatherElem' key={idx}>
                         <img className='WeatherIcon' src={forecast[idx].icon} alt='Weather Icon'/>
                         <h4 className="secondaryTemp">{forecast[idx].day}</h4>
@@ -79,8 +79,12 @@ function WeatherXDays({numDays=1}) {
 
 function getDay(UNIXTime) {
     var date = new Date(UNIXTime * 1000);
-    console.log(date)
     return days[date.getDay()];
+}
+
+function getTimeOffset(UNIXTime) {
+    var date = new Date();
+    return parseInt((date.getHours() / 3).toFixed(0))
 }
 
 WeatherXDays.protoTypes = {
