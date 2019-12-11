@@ -6,7 +6,7 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <WeatherBasic/>
+      {/* <WeatherBasic/> */}
       <WeatherXDays numDays={5}/>
     </div>
   );

@@ -32,14 +32,14 @@ function WeatherXDays({numDays=1}) {
                 }
                 
                 setForecast((forecast) => forecast.map((curr, idx) => {
-                    let offset = getTimeOffset() 
-                    let iconType = data.list[idx*8 + offset].weather[0].icon
+                    let dayX = getWeatherForDayX(idx, data.list);
+                    let iconType = dayX.weather[0].icon
                     return {
                         icon: 'http://openweathermap.org/img/wn/' + iconType +'@2x.png',
-                        temp: data.list[idx*8 + offset].main.temp.toFixed("..."),
-                        minTemp: data.list[idx*8 + offset].main.temp_min.toFixed("..."),
-                        maxTemp: data.list[idx*8 + offset].main.temp_max.toFixed("..."),
-                        day: getDay(data.list[idx*8 + offset].dt)
+                        temp: dayX.main.feels_like.toFixed("..."),
+                        minTemp: dayX.main.temp_min.toFixed("..."),
+                        maxTemp: dayX.main.temp_max.toFixed("..."),
+                        day: getDay(data.list[idx*8].dt)
                     }
                 }))    
             })
@@ -65,9 +65,9 @@ function WeatherXDays({numDays=1}) {
                         <img className='WeatherIcon' src={forecast[idx].icon} alt='Weather Icon'/>
                         <h4 className="secondaryTemp">{forecast[idx].day}</h4>
                         <div className='temp'>
-                            <h5 className="secondaryTemp">{forecast[idx].maxTemp}</h5>
-                            <h2 className="primaryTemp"> {forecast[idx].temp}</h2>
                             <h5 className="secondaryTemp">{forecast[idx].minTemp}</h5>
+                            <h2 className="primaryTemp"> {forecast[idx].temp}</h2>
+                            <h5 className="secondaryTemp">{forecast[idx].maxTemp}</h5>
                         </div>
                     </div>
                 })
@@ -82,9 +82,22 @@ function getDay(UNIXTime) {
     return days[date.getDay()];
 }
 
-function getTimeOffset(UNIXTime) {
+function getTimeOffset() {
     var date = new Date();
-    return parseInt((date.getHours() / 3).toFixed(0))
+    // console.log(((date.getHours()+1) / 3).toFixed(0))
+    // return parseInt(((date.getHours()+1) / 3 + 2).toFixed(0))
+
+    // console.log(((date.getHours() - (date.getHours() % 3) + 3) % 24))
+    return parseInt(((date.getHours() - (date.getHours() % 3) + 3) % 24).toFixed(0))
+}
+
+function getWeatherForDayX(day, forecastList) {
+    var date = new Date()
+    var offset = getTimeOffset() 
+    date = new Date(date.getTime() + day * 86400000)
+    var expectedFormattedDate = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()+" "+offset+":00:00";
+    var temp = forecastList.filter( day => day.dt_txt === expectedFormattedDate)[0]
+    return temp === undefined ? forecastList[0] : temp;
 }
 
 WeatherXDays.protoTypes = {
