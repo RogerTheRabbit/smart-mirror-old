@@ -6,6 +6,7 @@ import getId from '../id';
 const unitType = "imperial" // Options: imperial or metric| no units = Kelvin
 const weatherAPIURL = "http://api.openweathermap.org/data/2.5/weather?id=5134086&APPID=" + getId() +"&units=" + unitType;
 const debug = true;
+const updateInterval = 65000 * 5;
 
 function WeatherBasic() {
     
@@ -32,7 +33,7 @@ function WeatherBasic() {
         getWeather();
         const interval = setInterval(() => {
             getWeather();
-        }, 65000);
+        }, updateInterval);
         return () => clearInterval(interval);
     }, []);
 

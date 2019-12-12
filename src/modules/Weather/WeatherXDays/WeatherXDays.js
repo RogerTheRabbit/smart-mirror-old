@@ -7,7 +7,7 @@ import getId from '../id';
 const unitType = "imperial" // Options: imperial or metric| no units = Kelvin
 const weatherAPIURL = "http://api.openweathermap.org/data/2.5/forecast?id=5134086&APPID=" + getId() +"&units=" + unitType;
 const debug = true;
-const updateInterval = 650000; //65000;
+const updateInterval = 65000 * 5;
 const days = ['sun','mon','tues','weds','thurs','fri','sat']
 
 function WeatherXDays({numDays=1}) {
@@ -86,18 +86,20 @@ function getDay(UNIXTime) {
 
 function getTimeNearest3Hours() {
     var cur = new Date();
-    var nearestHour = parseInt(((cur.getHours() - cur.getHours() % 3 + 1 ) % 24).toFixed(0))
-    return new Date(Math.round(cur.getTime()/1000/3600) * 1000*3600 + (nearestHour - cur.getHours()) * 3600000)
+    //var nearestHour = parseInt(((cur.getHours() - cur.getHours() % 3 + 3 ) % 24).toFixed(0))
+    var nearestHour = new Date(Math.round(cur.getTime()/1000/10800) * 1000 * 10800)
+    return new Date(Math.round(cur.getTime()/1000/3600) * 1000*3600 + ((nearestHour.getHours() - cur.getHours() - 1) % 1) * 3600000)
 }
 
 function getWeatherForDayX(day, forecastList) {
     var date = new Date()
     date = getTimeNearest3Hours()
+    console.log(date)
     var offset = 86400 * day;
     var temp = forecastList.filter( day => {
         return day.dt === date.getTime()/1000 + offset;
     })
-    return temp === undefined ? forecastList[0] : temp[0]; // Ensure that the weather exists for this time.
+    return temp === undefined || temp[0] === undefined ? forecastList[0] : temp[0]; // Ensure that the weather exists for this time.
 }
 
 WeatherXDays.protoTypes = {
