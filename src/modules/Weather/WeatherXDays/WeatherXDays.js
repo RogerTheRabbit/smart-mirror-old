@@ -86,7 +86,6 @@ function getDay(UNIXTime) {
 
 function getTimeNearest3Hours() {
     var cur = new Date();
-    //var nearestHour = parseInt(((cur.getHours() - cur.getHours() % 3 + 3 ) % 24).toFixed(0))
     var nearestHour = new Date(Math.round(cur.getTime()/1000/10800) * 1000 * 10800)
     return new Date(Math.round(cur.getTime()/1000/3600) * 1000*3600 + ((nearestHour.getHours() - cur.getHours() - 1) % 1) * 3600000)
 }
@@ -94,7 +93,6 @@ function getTimeNearest3Hours() {
 function getWeatherForDayX(day, forecastList) {
     var date = new Date()
     date = getTimeNearest3Hours()
-    console.log(date)
     var offset = 86400 * day;
     var temp = forecastList.filter( day => {
         return day.dt === date.getTime()/1000 + offset;
