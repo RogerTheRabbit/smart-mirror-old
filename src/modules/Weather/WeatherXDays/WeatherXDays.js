@@ -16,6 +16,7 @@ function WeatherXDays({numDays=1}) {
 
     const [forecast, setForecast] = useState(Array(numDays).fill({icon:'./loading.png', temp:"...", minTemp: "...", maxTemp: "..."}));
 
+    // Update the forecast and then set interval to update weather every 'updateInterval' seconds
     useEffect(() => {
 
         function getWeather() {
@@ -36,10 +37,11 @@ function WeatherXDays({numDays=1}) {
                     let iconType = dayX.weather[0].icon
                     return {
                         icon: 'http://openweathermap.org/img/wn/' + iconType +'@2x.png',
-                        temp: dayX.main.feels_like.toFixed("..."),
+                        // temp: dayX.main.feels_like.toFixed("..."),
+                        temp: dayX.main.temp.toFixed("..."),
                         minTemp: dayX.main.temp_min.toFixed("..."),
                         maxTemp: dayX.main.temp_max.toFixed("..."),
-                        day: getDay(data.list[idx*8].dt)
+                        day: getDay(dayX.dt)
                     }
                 }))    
             })
@@ -82,22 +84,20 @@ function getDay(UNIXTime) {
     return days[date.getDay()];
 }
 
-function getTimeOffset() {
-    var date = new Date();
-    // console.log(((date.getHours()+1) / 3).toFixed(0))
-    // return parseInt(((date.getHours()+1) / 3 + 2).toFixed(0))
-
-    // console.log(((date.getHours() - (date.getHours() % 3) + 3) % 24))
-    return parseInt(((date.getHours() - (date.getHours() % 3) + 3) % 24).toFixed(0))
+function getTimeNearest3Hours() {
+    var cur = new Date();
+    var nearestHour = parseInt(((cur.getHours() - (cur.getHours() % 3) + 3) % 24).toFixed(0))
+    return new Date(Math.round(cur.getTime()/1000/3600) * 1000*3600 + (nearestHour - cur.getHours()) * 3600000)
 }
 
 function getWeatherForDayX(day, forecastList) {
     var date = new Date()
-    var offset = getTimeOffset() 
-    date = new Date(date.getTime() + day * 86400000)
-    var expectedFormattedDate = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()+" "+offset+":00:00";
-    var temp = forecastList.filter( day => day.dt_txt === expectedFormattedDate)[0]
-    return temp === undefined ? forecastList[0] : temp;
+    date = getTimeNearest3Hours()
+    var offset = 86400 * day;
+    var temp = forecastList.filter( day => {
+        return day.dt === date.getTime()/1000 + offset;
+    })
+    return temp === undefined ? forecastList[0] : temp[0]; // Ensure that the weather exists for this time.
 }
 
 WeatherXDays.protoTypes = {
