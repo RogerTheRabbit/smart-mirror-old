@@ -30,3 +30,7 @@ h1, h2, h3, h4, h5 {
 .module {
   border: 3px red dotted;
 }
+
+.segment {
+  border: 3px blue dotted;
+}
