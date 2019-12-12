@@ -13,7 +13,7 @@ function InspirationalQuote() {
         request.onreadystatechange = () => {
             if (request.readyState === 4 && request.status === 200) {
                 var myObj = JSON.parse(request.responseText);
-                console.log(myObj)
+                console.log("Updating qutote", myObj)
                 setQuote(myObj.items[0].title.replace(/&quot;/g, '"'))
             }
         }
