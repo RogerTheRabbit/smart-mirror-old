@@ -38,7 +38,7 @@ function WeatherBasic() {
     }, []);
 
     return (
-        <div className='Weather'>
+        <div className='Weather module'>
             <h1 className="title">Current Weather!</h1>
             <img className='WeatherIcon' src={icon} alt='Weather Icon'/>
             <h3 className='primaryTemp'>{temp} ° F</h3>

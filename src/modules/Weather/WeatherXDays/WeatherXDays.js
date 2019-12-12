@@ -59,7 +59,7 @@ function WeatherXDays({numDays=1}) {
     }, [numDays, setForecast]);
 
     return (
-        <div className='Weather WeatherXDays'>
+        <div className='Weather WeatherXDays module'>
             <h1 className="title">Today's Weather!</h1>
             <div className='Forecast'>
                 {forecast.map((elem, idx) => {

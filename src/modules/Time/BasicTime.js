@@ -18,7 +18,15 @@ export default function BasicTime() {
 
     function getFormattedTime() {
         var date = new Date();
-        return date.getHours() + ":" + date.getMinutes()+":"+date.getSeconds();
+        return date.getHours().pad('0', 2) + ":" + date.getMinutes().pad('0', 2)+":"+date.getSeconds().pad('0', 2);
+    }
+
+    Number.prototype.pad = function(padWith, len) {
+        var str = this + ''
+        while (str.length < len) {
+            str = padWith + str;
+        }
+        return str;
     }
 
     useEffect(() => {
@@ -32,7 +40,7 @@ export default function BasicTime() {
     }, [])
 
     return (
-        <div>
+        <div className='clock module'>
             <h1 id='date'>...</h1>
             <h4 id='time'>...</h4>
         </div>
