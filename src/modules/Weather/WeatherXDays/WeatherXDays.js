@@ -86,7 +86,7 @@ function getDay(UNIXTime) {
 
 function getTimeNearest3Hours() {
     var cur = new Date();
-    var nearestHour = parseInt(((cur.getHours() - (cur.getHours() % 3) + 3) % 24).toFixed(0))
+    var nearestHour = parseInt(((cur.getHours() - cur.getHours() % 3 + 1 ) % 24).toFixed(0))
     return new Date(Math.round(cur.getTime()/1000/3600) * 1000*3600 + (nearestHour - cur.getHours()) * 3600000)
 }
 
