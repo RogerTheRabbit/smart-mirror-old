@@ -12,8 +12,8 @@
   font-family: Gilroy-light;
   background: black;
   position:fixed;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   left: 0;
   top: 0;
   color:#FFFAFA;
@@ -27,10 +27,11 @@ h1, h2, h3, h4, h5 {
   font-weight: lighter;
 }
 
-.module {
+/* .module {
   border: 3px red dotted;
+  display: inline-block;
 }
 
 .segment {
   border: 3px blue dotted;
-}
+} */

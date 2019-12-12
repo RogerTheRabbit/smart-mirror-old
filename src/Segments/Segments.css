@@ -1,7 +1,19 @@
 .leftSegment {
-    float: left;
+    align-items: flex-start;
 }
 
 .rightSegment {
-    float: right;
+    align-items: flex-end;
+}
+
+.segment {
+    width: 33.333%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.App {
+    display: flex;
+    flex-direction: row;
 }
