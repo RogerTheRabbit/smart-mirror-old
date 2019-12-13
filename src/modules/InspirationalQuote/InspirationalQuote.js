@@ -14,7 +14,8 @@ function InspirationalQuote() {
             if (request.readyState === 4 && request.status === 200) {
                 var myObj = JSON.parse(request.responseText);
                 console.log("Updating qutote", myObj)
-                setQuote(myObj.items[0].title.replace(/&quot;/g, '"'))
+                let randPos = Math.trunc(Math.random() * myObj.items.length)
+                setQuote(myObj.items[randPos].title.replace(/&quot;/g, '"'))
             }
         }
         request.open("GET", QUOTES_FEED, true);
@@ -34,7 +35,7 @@ function InspirationalQuote() {
 
     return (
         <div className="quote">
-            <h1>{quote}</h1>
+            <i><h1>{quote}</h1></i>
         </div>
     )
 }
