@@ -28,29 +28,45 @@ function WeatherXDays({numDays=1}) {
 
             if(data.cod === 429) {
                 if(debug) console.log("We have run out of our quota for our weatherAPI and need to wait to get more weather.");
-                setForecast(Array(numDays).fill({icon:'./unavailable.png', temp:"...", minTemp: "...", maxTemp: "...", day: "today", day: "...", dt: 0}))
+                setForecast(Array(numDays).fill({icon:'./unavailable.png', temp:"...", minTemp: "...", maxTemp: "...", day: "...", dt: 0}))
                 return;
             }
 
             setForecast((forecast) => {
-                let now = new Date().getTime() / 1000;
+                let currDate = new Date();
+                let now = currDate.getTime() / 1000;
                 let list = data.list
                 let newForecast = forecast.slice(0, forecast.length)
                 let x = 0;
                 for(x; x < list.length; x++) {
                     let y = 0;
                     for(y; y < numDays; y++) {
+                        if(newForecast[y].minTemp === '...' ) {
+                            newForecast[y].minTemp = list[y].main.temp_min.toFixed("...");
+                        }
+                        if(newForecast[y].maxTemp === '...' ) {
+                            newForecast[y].maxTemp = list[y].main.temp_max.toFixed("...");
+                        }
                         if(Math.abs(now + (86400 * y) - list[x].dt) < Math.abs(now + (86400 * y) - newForecast[y].dt)) {
-
+                            
                             newForecast[y] = {
                                 icon: 'http://openweathermap.org/img/wn/' + list[x].weather[0].icon +'@2x.png',
                                 // temp: dayX.main.feels_like.toFixed("..."),
+                                minTemp: newForecast[y].minTemp,
+                                maxTemp: newForecast[y].maxTemp,
                                 temp: list[x].main.temp.toFixed("..."),
-                                minTemp: list[x].main.temp_min.toFixed("..."),
-                                maxTemp: list[x].main.temp_max.toFixed("..."),
                                 day: getDay(list[x].dt),
                                 dt: list[x].dt
                             }
+                        }
+
+                        let idxDate = new Date(list[x].dt * 1000)
+                        
+                        if( currDate.getDate() === idxDate.getDate() && list[y].main.temp_min.toFixed("...") < newForecast[y].minTemp ) {
+                            newForecast[y].minTemp = list[y].main.temp_min.toFixed("...")
+                        }
+                        if( currDate.getDate() === idxDate.getDate() && list[y].main.temp_max.toFixed("...") > newForecast[y].maxTemp ) {
+                            newForecast[y].minTemp = list[y].main.temp_min.toFixed("...")
                         }
                     }
                 }
