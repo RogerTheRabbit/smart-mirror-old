@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import './WeatherXDays.css';
 import '../Weather.css';
 import getId from '../id';

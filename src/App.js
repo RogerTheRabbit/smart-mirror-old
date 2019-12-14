@@ -10,6 +10,8 @@ import BasicTime from './modules/Time/BasicTime'
 import InspirationalQuote from './modules/InspirationalQuote/InspirationalQuote'
 import './App.css';
 
+const use24hTime = false;
+
 function App() {
   return (
     <div className="App">
@@ -18,7 +20,7 @@ function App() {
       </LeftSegment>
 
       <Segment>
-        <BasicTime/>
+        <BasicTime showSeconds={false} use24hTime={use24hTime}/>
         <InspirationalQuote/>
       </Segment>
 
