@@ -11,11 +11,11 @@ const updateInterval = 65000 * 5;
 const days = ['sun','mon','tues','weds','thurs','fri','sat']
 const MAX_DAYS = 5;
 
-function WeatherXDays({numDays=1}) {
+export default function WeatherXDays({numDays=1}) {
 
     numDays = numDays <= MAX_DAYS ? numDays : MAX_DAYS;
 
-    console.log("Refreshing WeatherXDays Component; numDays = " + numDays)
+    console.log("Initalizing WeatherXDays Component; numDays = " + numDays)
 
     const [forecast, setForecast] = useState(Array(numDays).fill({icon:'./loading.png', temp:"...", minTemp: "...", maxTemp: "...", day: "...", dt: 0}));
 
@@ -42,19 +42,19 @@ function WeatherXDays({numDays=1}) {
                     let y = 0;
                     for(y; y < numDays; y++) {
                         if(newForecast[y].minTemp === '...' ) {
-                            newForecast[y].minTemp = list[y].main.temp_min.toFixed("...");
+                            newForecast[y].minTemp = list[y].main.temp_min.toFixed(0);
                         }
                         if(newForecast[y].maxTemp === '...' ) {
-                            newForecast[y].maxTemp = list[y].main.temp_max.toFixed("...");
+                            newForecast[y].maxTemp = list[y].main.temp_max.toFixed(0);
                         }
                         if(Math.abs(now + (86400 * y) - list[x].dt) < Math.abs(now + (86400 * y) - newForecast[y].dt)) {
                             
                             newForecast[y] = {
                                 icon: 'http://openweathermap.org/img/wn/' + list[x].weather[0].icon +'@2x.png',
-                                // temp: dayX.main.feels_like.toFixed("..."),
+                                // temp: dayX.main.feels_like.toFixed(0),
                                 minTemp: newForecast[y].minTemp,
                                 maxTemp: newForecast[y].maxTemp,
-                                temp: list[x].main.temp.toFixed("..."),
+                                temp: list[x].main.temp.toFixed(0),
                                 day: getDay(list[x].dt),
                                 dt: list[x].dt
                             }
@@ -62,11 +62,11 @@ function WeatherXDays({numDays=1}) {
 
                         let idxDate = new Date(list[x].dt * 1000)
                         
-                        if( currDate.getDate() === idxDate.getDate() && list[y].main.temp_min.toFixed("...") < newForecast[y].minTemp ) {
-                            newForecast[y].minTemp = list[y].main.temp_min.toFixed("...")
+                        if( currDate.getDate() === idxDate.getDate() && list[y].main.temp_min.toFixed(0) < newForecast[y].minTemp ) {
+                            newForecast[y].minTemp = list[y].main.temp_min.toFixed(0)
                         }
-                        if( currDate.getDate() === idxDate.getDate() && list[y].main.temp_max.toFixed("...") > newForecast[y].maxTemp ) {
-                            newForecast[y].minTemp = list[y].main.temp_min.toFixed("...")
+                        if( currDate.getDate() === idxDate.getDate() && list[y].main.temp_max.toFixed(0) > newForecast[y].maxTemp ) {
+                            newForecast[y].minTemp = list[y].main.temp_min.toFixed(0)
                         }
                     }
                 }
@@ -120,5 +120,3 @@ function WeatherXDays({numDays=1}) {
 WeatherXDays.protoTypes = {
     numDays: PropTypes.number
 }
-
-export default WeatherXDays

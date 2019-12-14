@@ -49,7 +49,7 @@ export default function BasicTime({showSeconds = false, use24hTime = false}) {
         return () => {
             clearInterval(interval)
         };
-    }, [])
+    }, [showSeconds, use24hTime])
 
     return (
         <div className='clock module'>
