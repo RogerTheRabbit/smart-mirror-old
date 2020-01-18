@@ -2,7 +2,7 @@ import React from 'react';
 
 import LeftSegment from './Segments/LeftSegment'
 import RightSegment from './Segments/RightSegment'
-import Segment from './Segments/Segment'
+import CenterSegment from './Segments/CenterSegment'
 
 import WeatherBasic from './modules/Weather/Basic/WeatherBasic';
 import WeatherXDays from './modules/Weather/WeatherXDays/WeatherXDays';
@@ -19,10 +19,10 @@ function App() {
         <WeatherBasic/>
       </LeftSegment>
 
-      <Segment>
+      <CenterSegment>
         <BasicTime showSeconds={false} use24hTime={use24hTime}/>
         <InspirationalQuote/>
-      </Segment>
+      </CenterSegment>
 
       <RightSegment>
         <WeatherXDays numDays={5}/>

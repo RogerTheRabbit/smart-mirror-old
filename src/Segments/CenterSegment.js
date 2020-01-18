@@ -2,9 +2,9 @@ import React from 'react'
 
 import './Segments.css'
 
-export default function Segment(props) {
+export default function CenterSegment(props) {
     return (
-        <div className='segment'>
+        <div className='segment CenterSegment'>
             {props.children}
         </div>
     )

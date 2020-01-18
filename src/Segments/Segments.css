@@ -6,6 +6,9 @@
     align-items: flex-end;
 }
 
+.centerSegment {
+}
+
 .segment {
     width: 33.333%;
     height: 100vh;
